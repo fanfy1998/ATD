@@ -97,6 +97,13 @@ def plota(todo):
         begin3+=len(element[4])/1000
     plt.show()
 
+def plotaDFT(arrayDFT):
+    N = len(arrayDFT[0])
+    t = np.linspace(0, 2, 2 * 100, endpoint=False)
+    plt.figure()
+    plt.plot(np.linspace(0.0, N/1000, len(arrayDFT[0])), np.abs(arrayDFT[0]))
+    plt.show()
+
 def main():
     activities=['WALK','WALK_UP','WALK_DOWN','SIT','STAND','LAY','STAND_SIT','SIT_STAND','SIT_LIE','LIE_SIT','STAND_LIE',"LIE_STAND"]
     data = loadData.loadData()
@@ -133,6 +140,9 @@ def main():
     for i in range(len(paiX)):
         for k in range(len(paiX[i])):
             arrayDFT[i].append(dft(paiX[i], k))
-    print(arrayDFT)
+
+    plotaDFT(arrayDFT)
+
+
 
 main()
