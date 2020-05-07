@@ -5,7 +5,7 @@ import numpy as np
 import math
 
 
-def auxDft(todo):
+def auxDft(todo,janela):
     activities=['WALK','WALK_UP','WALK_DOWN','SIT','STAND','LAY','STAND_SIT','SIT_STAND','SIT_LIE','LIE_SIT','STAND_LIE',"LIE_STAND"]
     andando=[]
     subindoEscadas=[]
@@ -24,45 +24,146 @@ def auxDft(todo):
             for i in range(len(element[2])):
                 aux = []
                 window=0
-                aux.append(element[2][i])
-                while window<janela:
+                while window<=janela:
                     aux.append(element[2][i+window])
                     window+=1
-                med = sum(aux)/janela
+                if window>0:
+                    med = float(sum(aux)/window)
+                else:
+                    med = sum(aux)
                 andando.append(med)
         elif activities[int(element[0][0])-1] == activities[1]:
-            for elem in element[2]:
-                subindoEscadas.append(elem)
+            for i in range(len(element[2])):
+                aux = []
+                window=0
+                while window<=janela:
+                    aux.append(element[2][i+window])
+                    window+=1
+                if window>0:
+                    med = float(sum(aux)/window)
+                else:
+                    med = sum(aux)
+                subindoEscadas.append(med)
         elif activities[int(element[0][0])-1] == activities[2]:
-            for elem in element[2]:
-                descendoEscadas.append(elem)
+            for i in range(len(element[2])):
+                aux = []
+                window=0
+                while window<=janela:
+                    aux.append(element[2][i+window])
+                    window+=1
+                if window>0:
+                    med = float(sum(aux)/window)
+                else:
+                    med = sum(aux)
+                descendoEscadas.append(med)
         elif activities[int(element[0][0])-1] == activities[3]:
-            for elem in element[2]:
-                sentado.append(elem)
+            for i in range(len(element[2])):
+                aux = []
+                window=0
+                while window<=janela:
+                    aux.append(element[2][i+window])
+                    window+=1
+                if window>0:
+                    med = float(sum(aux)/window)
+                else:
+                    med = sum(aux)
+                sentado.append(med)
         elif activities[int(element[0][0])-1] == activities[4]:
-            for elem in element[2]:
-                pe.append(elem)
+            for i in range(len(element[2])):
+                aux = []
+                window=0
+                while window<=janela:
+                    aux.append(element[2][i+window])
+                    window+=1
+                if window>0:
+                    med = float(sum(aux)/window)
+                else:
+                    med = sum(aux)
+                pe.append(med)
         elif activities[int(element[0][0])-1] == activities[5]:
-            for elem in element[2]:
-                deitado.append(elem)
+            for i in range(len(element[2])):
+                aux = []
+                window=0
+                while window<=janela:
+                    aux.append(element[2][i+window])
+                    window+=1
+                if window>0:
+                    med = float(sum(aux)/window)
+                else:
+                    med = sum(aux)
+                deitado.append(med)
         elif activities[int(element[0][0])-1] == activities[6]:
-            for elem in element[2]:
-                pesenta.append(elem)
+            for i in range(len(element[2])):
+                aux = []
+                window=0
+                while window<=janela:
+                    aux.append(element[2][i+window])
+                    window+=1
+                if window>0:
+                    med = float(sum(aux)/window)
+                else:
+                    med = sum(aux)
+                pesenta.append(med)
         elif activities[int(element[0][0])-1] == activities[7]:
-            for elem in element[2]:
-                sentape.append(elem)
+            for i in range(len(element[2])):
+                aux = []
+                window=0
+                while window<=janela:
+                    aux.append(element[2][i+window])
+                    window+=1
+                if window>0:
+                    med = float(sum(aux)/window)
+                else:
+                    med = sum(aux)
+                sentape.append(med)
         elif activities[int(element[0][0])-1] == activities[8]:
-            for elem in element[2]:
-                sentadeita.append(elem)
+            for i in range(len(element[2])):
+                aux = []
+                window=0
+                while window<=janela:
+                    aux.append(element[2][i+window])
+                    window+=1
+                if window>0:
+                    med = float(sum(aux)/window)
+                else:
+                    med = sum(aux)
+                sentadeita.append(med)
         elif activities[int(element[0][0])-1] == activities[9]:
-            for elem in element[2]:
-                deitasenta.append(elem)
+            for i in range(len(element[2])):
+                aux = []
+                window=0
+                while window<=janela:
+                    aux.append(element[2][i+window])
+                    window+=1
+                if window>0:
+                    med = float(sum(aux)/window)
+                else:
+                    med = sum(aux)
+                deitasenta.append(med)
         elif activities[int(element[0][0])-1] == activities[10]:
-            for elem in element[2]:
-                pedeita.append(elem)
+            for i in range(len(element[2])):
+                aux = []
+                window=0
+                while window<=janela:
+                    aux.append(element[2][i+window])
+                    window+=1
+                if window>0:
+                    med = float(sum(aux)/window)
+                else:
+                    med = sum(aux)
+                pedeita.append(med)
         elif activities[int(element[0][0])-1] == activities[11]:
-            for elem in element[2]:
-                deitape.append(elem)
+            for i in range(len(element[2])):
+                aux = []
+                window=0
+                while window<=janela:
+                    aux.append(element[2][i+window])
+                    window+=1
+                if window>0:
+                    med = float(sum(aux)/window)
+                else:
+                    med = sum(aux)
+                deitape.append(med)
     return [andando, subindoEscadas, descendoEscadas, sentado, pe, deitado, pesenta, sentape, sentadeita, deitasenta, pedeita, deitape]
 
 def dft(x,k):
@@ -142,7 +243,7 @@ def main():
         todo[i].append(auxi3)
 
     #plota(todo)
-    paiX = auxDft(todo)
+    paiX = auxDft(todo,0)
     arrayDFT = [[],[],[],[],[],[],[],[],[],[],[],[]]
     for i in range(len(paiX)):
         for k in range(len(paiX[i])):
