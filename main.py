@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import math
 
+JANELA_DESLIZANTE = 5
+
 
 def auxDft(todo,janela):
     activities=['WALK','WALK_UP','WALK_DOWN','SIT','STAND','LAY','STAND_SIT','SIT_STAND','SIT_LIE','LIE_SIT','STAND_LIE',"LIE_STAND"]
@@ -25,7 +27,8 @@ def auxDft(todo,janela):
                 aux = []
                 window=0
                 while window<=janela:
-                    aux.append(element[2][i+window])
+                    if i+window < len(element[2]):
+                        aux.append(element[2][i+window])
                     window+=1
                 if window>0:
                     med = float(sum(aux)/window)
@@ -37,7 +40,8 @@ def auxDft(todo,janela):
                 aux = []
                 window=0
                 while window<=janela:
-                    aux.append(element[2][i+window])
+                    if i+window < len(element[2]):
+                        aux.append(element[2][i+window])
                     window+=1
                 if window>0:
                     med = float(sum(aux)/window)
@@ -49,7 +53,8 @@ def auxDft(todo,janela):
                 aux = []
                 window=0
                 while window<=janela:
-                    aux.append(element[2][i+window])
+                    if i+window < len(element[2]):
+                        aux.append(element[2][i+window])
                     window+=1
                 if window>0:
                     med = float(sum(aux)/window)
@@ -61,7 +66,8 @@ def auxDft(todo,janela):
                 aux = []
                 window=0
                 while window<=janela:
-                    aux.append(element[2][i+window])
+                    if i+window < len(element[2]):
+                        aux.append(element[2][i+window])
                     window+=1
                 if window>0:
                     med = float(sum(aux)/window)
@@ -73,7 +79,8 @@ def auxDft(todo,janela):
                 aux = []
                 window=0
                 while window<=janela:
-                    aux.append(element[2][i+window])
+                    if i+window < len(element[2]):
+                        aux.append(element[2][i+window])
                     window+=1
                 if window>0:
                     med = float(sum(aux)/window)
@@ -85,7 +92,8 @@ def auxDft(todo,janela):
                 aux = []
                 window=0
                 while window<=janela:
-                    aux.append(element[2][i+window])
+                    if i+window < len(element[2]):
+                        aux.append(element[2][i+window])
                     window+=1
                 if window>0:
                     med = float(sum(aux)/window)
@@ -97,7 +105,8 @@ def auxDft(todo,janela):
                 aux = []
                 window=0
                 while window<=janela:
-                    aux.append(element[2][i+window])
+                    if i+window < len(element[2]):
+                        aux.append(element[2][i+window])
                     window+=1
                 if window>0:
                     med = float(sum(aux)/window)
@@ -109,7 +118,8 @@ def auxDft(todo,janela):
                 aux = []
                 window=0
                 while window<=janela:
-                    aux.append(element[2][i+window])
+                    if i+window < len(element[2]):
+                        aux.append(element[2][i+window])
                     window+=1
                 if window>0:
                     med = float(sum(aux)/window)
@@ -121,7 +131,8 @@ def auxDft(todo,janela):
                 aux = []
                 window=0
                 while window<=janela:
-                    aux.append(element[2][i+window])
+                    if i+window < len(element[2]):
+                        aux.append(element[2][i+window])
                     window+=1
                 if window>0:
                     med = float(sum(aux)/window)
@@ -133,7 +144,8 @@ def auxDft(todo,janela):
                 aux = []
                 window=0
                 while window<=janela:
-                    aux.append(element[2][i+window])
+                    if i+window < len(element[2]):
+                        aux.append(element[2][i+window])
                     window+=1
                 if window>0:
                     med = float(sum(aux)/window)
@@ -145,7 +157,8 @@ def auxDft(todo,janela):
                 aux = []
                 window=0
                 while window<=janela:
-                    aux.append(element[2][i+window])
+                    if i+window < len(element[2]):
+                        aux.append(element[2][i+window])
                     window+=1
                 if window>0:
                     med = float(sum(aux)/window)
@@ -157,7 +170,8 @@ def auxDft(todo,janela):
                 aux = []
                 window=0
                 while window<=janela:
-                    aux.append(element[2][i+window])
+                    if i+window < len(element[2]):
+                        aux.append(element[2][i+window])
                     window+=1
                 if window>0:
                     med = float(sum(aux)/window)
@@ -243,7 +257,7 @@ def main():
         todo[i].append(auxi3)
 
     #plota(todo)
-    paiX = auxDft(todo,0)
+    paiX = auxDft(todo,JANELA_DESLIZANTE)
     arrayDFT = [[],[],[],[],[],[],[],[],[],[],[],[]]
     for i in range(len(paiX)):
         for k in range(len(paiX[i])):
