@@ -21,8 +21,15 @@ def auxDft(todo):
     deitape=[]
     for element in todo:
         if activities[int(element[0][0])-1] == activities[0]:
-            for elem in element[2]:
-                andando.append(elem)
+            for i in range(len(element[2])):
+                aux = []
+                window=0
+                aux.append(element[2][i])
+                while window<janela:
+                    aux.append(element[2][i+window])
+                    window+=1
+                med = sum(aux)/janela
+                andando.append(med)
         elif activities[int(element[0][0])-1] == activities[1]:
             for elem in element[2]:
                 subindoEscadas.append(elem)
@@ -142,6 +149,7 @@ def main():
             arrayDFT[i].append(dft(paiX[i], k))
 
     plotaDFT(arrayDFT)
+
 
 
 
