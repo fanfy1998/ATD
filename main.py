@@ -200,6 +200,13 @@ def dft(x,k):
         transformada += (math.e**(-2*math.pi*1j*k*i/len(x)))*x[i]
     return transformada
 
+def stft(x,k):
+    transformada = 0
+    lista = np.blackman(len(x)).tolist()
+    for i in range(len(x)):
+        transformada += lista[i]*x[i]*(math.e**(-2*math.pi*1j*k*i/len(x)))
+    return transformada
+
 def plota(todo):
     activities=['WALK','WALK_UP','WALK_DOWN','SIT','STAND','LAY','STAND_SIT','SIT_STAND','SIT_LIE','LIE_SIT','STAND_LIE',"LIE_STAND"]
     plt.figure()
@@ -241,6 +248,10 @@ def plotaDFT(arrayDFT):
     plt.plot(np.linspace(0.0, N/AMOSTRASSEGUNDO, len(arrayDFT[0])), np.abs(arrayDFT[0]))
     plt.show()
 
+def plotaSTFT(arraySTFT):
+    plt.figure()
+    plt.plot(np.linspace(0.0, len(arraySTFT[0])/AMOSTRASSEGUNDO, len(arraySTFT[0])), np.abs(arraySTFT[0]))
+    plt.show()
 
 def staticSteps(arrayDFT):
     plt.figure()
@@ -338,6 +349,9 @@ def dinamicalSteps(arrayDFT):
     return [pacosAndando,pacosSubindo,pacosDescendo]
 
 
+
+
+
 def main():
     activities=['WALK','WALK_UP','WALK_DOWN','SIT','STAND','LAY','STAND_SIT','SIT_STAND','SIT_LIE','LIE_SIT','STAND_LIE',"LIE_STAND"]
     data = loadData.loadData()
@@ -376,6 +390,13 @@ def main():
         for k in range(len(paiX[i])):
             arrayDFT[i].append(dft(paiX[i], k))
 
+
+    arraySTFT = [[],[],[],[],[],[],[],[],[],[],[],[]]
+    for i in range (len(paiX)):
+        for k in range(len(paiX[i])):
+            arraySTFT[i].append(stft(paiX[i], k))
+
+    #plotaSTFT(arraySTFT)
     #plota(todo)
     #plotaDFT(arrayDFT)
     '''pacosEstaticos= staticSteps(arrayDFT)
