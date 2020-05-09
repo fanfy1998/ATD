@@ -4,7 +4,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import math
 
-JANELA_DESLIZANTE = 5
+JANELA_DESLIZANTE = 0
+AMOSTRASSEGUNDO = 50
+STEP_FREQ = 50
 
 
 def auxDft(todo,janela):
@@ -29,6 +31,8 @@ def auxDft(todo,janela):
                 while window<=janela:
                     if i+window < len(element[2]):
                         aux.append(element[2][i+window])
+                    else:
+                        break
                     window+=1
                 if window>0:
                     med = float(sum(aux)/window)
@@ -42,6 +46,8 @@ def auxDft(todo,janela):
                 while window<=janela:
                     if i+window < len(element[2]):
                         aux.append(element[2][i+window])
+                    else:
+                        break
                     window+=1
                 if window>0:
                     med = float(sum(aux)/window)
@@ -55,6 +61,8 @@ def auxDft(todo,janela):
                 while window<=janela:
                     if i+window < len(element[2]):
                         aux.append(element[2][i+window])
+                    else:
+                        break
                     window+=1
                 if window>0:
                     med = float(sum(aux)/window)
@@ -68,6 +76,8 @@ def auxDft(todo,janela):
                 while window<=janela:
                     if i+window < len(element[2]):
                         aux.append(element[2][i+window])
+                    else:
+                        break
                     window+=1
                 if window>0:
                     med = float(sum(aux)/window)
@@ -81,6 +91,8 @@ def auxDft(todo,janela):
                 while window<=janela:
                     if i+window < len(element[2]):
                         aux.append(element[2][i+window])
+                    else:
+                        break
                     window+=1
                 if window>0:
                     med = float(sum(aux)/window)
@@ -94,6 +106,8 @@ def auxDft(todo,janela):
                 while window<=janela:
                     if i+window < len(element[2]):
                         aux.append(element[2][i+window])
+                    else:
+                        break
                     window+=1
                 if window>0:
                     med = float(sum(aux)/window)
@@ -196,35 +210,85 @@ def plota(todo):
         #################311#####################
         plt.subplot(311)
         plt.ylabel("ACC_X")
-        plt.plot(np.linspace(begin,begin+len(element[2])/1000,len(element[2])),element[2],linewidth=0.3)
+        plt.plot(np.linspace(begin,begin+len(element[2])/(60*AMOSTRASSEGUNDO),len(element[2])),element[2],linewidth=0.3)
         plt.ylim(top=max(element[2])+0.3)
         plt.ylim(bottom=min(element[2])-1)
         plt.text(begin, min(element[2])-0.7, activities[int(element[0][0])-1], fontsize = 10, fontname='DejaVu Sans')
-        begin+=len(element[2])/1000
+        begin+=len(element[2])/(60*AMOSTRASSEGUNDO)
         #################312#####################
         plt.subplot(312)
         plt.ylabel("ACC_Y")
-        plt.plot(np.linspace(begin2,begin2+len(element[3])/1000,len(element[3])),element[3],linewidth=0.3)
+        plt.plot(np.linspace(begin2,begin2+len(element[3])/(60*AMOSTRASSEGUNDO),len(element[3])),element[3],linewidth=0.3)
         plt.ylim(top=max(element[3])+0.3)
         plt.ylim(bottom=min(element[3])-1)
         plt.text(begin2, min(element[3])-0.7, activities[int(element[0][0])-1], fontsize = 10, fontname='DejaVu Sans')
-        begin2+=len(element[3])/1000
+        begin2+=len(element[3])/(60*AMOSTRASSEGUNDO)
         #################313#####################
         plt.subplot(313)
         plt.ylabel("ACC_Z")
-        plt.plot(np.linspace(begin3,begin3+len(element[4])/1000,len(element[4])),element[4],linewidth=0.3)
+        plt.xlabel("Time (min)")
+        plt.plot(np.linspace(begin3,begin3+len(element[4])/(60*AMOSTRASSEGUNDO),len(element[4])),element[4],linewidth=0.3)
         plt.ylim(top=max(element[4])+0.3)
         plt.ylim(bottom=min(element[4])-1)
         plt.text(begin3, min(element[4])-0.7, activities[int(element[0][0])-1], fontsize = 10, fontname='DejaVu Sans')
-        begin3+=len(element[4])/1000
+
+        begin3+=len(element[4])/(60*AMOSTRASSEGUNDO)
     plt.show()
 
 def plotaDFT(arrayDFT):
     N = len(arrayDFT[0])
-    t = np.linspace(0, 2, 2 * 100, endpoint=False)
     plt.figure()
-    plt.plot(np.linspace(0.0, N/1000, len(arrayDFT[0])), np.abs(arrayDFT[0]))
+    plt.plot(np.linspace(0.0, N/AMOSTRASSEGUNDO, len(arrayDFT[0])), np.abs(arrayDFT[0]))
     plt.show()
+
+def media(arr):
+    return sum(arr)/len(arr)
+
+def dinamicalSteps(arrayDFT):
+    plt.figure()
+
+    quadro="31"
+    aux=1
+
+    for i in range(3):
+        if len(arrayDFT[i])>0:
+            plt.subplot(int(quadro+str(aux)))
+            plt.plot(np.linspace(0.0, len(arrayDFT[i])/AMOSTRASSEGUNDO, len(arrayDFT[i])), np.abs(arrayDFT[i]))
+            arr = []
+            while len(arr)<len(arrayDFT[i]):
+                arr.append(STEP_FREQ)
+            plt.plot(np.linspace(0.0, len(arrayDFT[i])/AMOSTRASSEGUNDO,len(arrayDFT[i])),arr)
+            aux+=1
+    pacosAndando = []
+    pacosDescendo = []
+    pacosSubindo = []
+
+    for j in range(3):
+        conta = 0
+        instante = 0
+        for i in range(len(arrayDFT[j])):
+            if np.abs(arrayDFT[j][i])>STEP_FREQ:
+                conta += 1
+            if instante==50:
+                if j==0:
+                    pacosAndando.append(conta)
+                elif j==1:
+                    pacosDescendo.append(conta)
+                else:
+                    pacosSubindo.append(conta)
+                conta=0
+                instante=0
+            instante+=1
+        if j==0 and conta!=0:
+            pacosAndando.append(conta)
+        elif j==1 and conta!=0:
+            pacosDescendo.append(conta)
+        elif j==2 and conta!=0:
+            pacosSubindo.append(conta)
+    plt.show()
+
+    return [pacosAndando, pacosDescendo, pacosSubindo]
+
 
 def main():
     activities=['WALK','WALK_UP','WALK_DOWN','SIT','STAND','LAY','STAND_SIT','SIT_STAND','SIT_LIE','LIE_SIT','STAND_LIE',"LIE_STAND"]
@@ -256,15 +320,16 @@ def main():
         todo[i].append(auxi2)
         todo[i].append(auxi3)
 
-    #plota(todo)
+
     paiX = auxDft(todo,JANELA_DESLIZANTE)
     arrayDFT = [[],[],[],[],[],[],[],[],[],[],[],[]]
     for i in range(len(paiX)):
         for k in range(len(paiX[i])):
             arrayDFT[i].append(dft(paiX[i], k))
 
+    plota(todo)
     plotaDFT(arrayDFT)
-
+    pacosDinamicos=dinamicalSteps(arrayDFT)
 
 
 
