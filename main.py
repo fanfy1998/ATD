@@ -241,8 +241,56 @@ def plotaDFT(arrayDFT):
     plt.plot(np.linspace(0.0, N/AMOSTRASSEGUNDO, len(arrayDFT[0])), np.abs(arrayDFT[0]))
     plt.show()
 
-def media(arr):
-    return sum(arr)/len(arr)
+
+def staticSteps(arrayDFT):
+    plt.figure()
+
+    quadro="31"
+    aux=1
+
+    i=3
+    while i<6:
+        if len(arrayDFT[i])>0:
+            plt.subplot(int(quadro+str(aux)))
+            plt.plot(np.linspace(0.0, len(arrayDFT[i])/AMOSTRASSEGUNDO, len(arrayDFT[i])), np.abs(arrayDFT[i]))
+            arr = []
+            while len(arr)<len(arrayDFT[i]):
+                arr.append(STEP_FREQ)
+            plt.plot(np.linspace(0.0, len(arrayDFT[i])/AMOSTRASSEGUNDO,len(arrayDFT[i])),arr)
+            aux+=1
+        i+=1
+    sentado = []
+    depe = []
+    deitado = []
+
+    j = 3
+
+    while j<6:
+        conta = 0
+        instante = 0
+        for i in range(len(arrayDFT[j])):
+            if np.abs(arrayDFT[j][i])>STEP_FREQ:
+                conta += 1
+            if instante==50:
+                if j==3:
+                    sentado.append(conta)
+                elif j==4:
+                    depe.append(conta)
+                else:
+                    deitado.append(conta)
+                conta=0
+                instante=0
+            instante+=1
+        if j==0 and conta!=0:
+            sentado.append(conta)
+        elif j==1 and conta!=0:
+            depe.append(conta)
+        elif j==2 and conta!=0:
+            deitado.append(conta)
+        j+=1
+    plt.show()
+
+    return [sentado,depe,deitado]
 
 def dinamicalSteps(arrayDFT):
     plt.figure()
@@ -287,15 +335,15 @@ def dinamicalSteps(arrayDFT):
             pacosSubindo.append(conta)
     plt.show()
 
-    return [pacosAndando, pacosDescendo, pacosSubindo]
+    return [pacosAndando,pacosSubindo,pacosDescendo]
 
 
 def main():
     activities=['WALK','WALK_UP','WALK_DOWN','SIT','STAND','LAY','STAND_SIT','SIT_STAND','SIT_LIE','LIE_SIT','STAND_LIE',"LIE_STAND"]
     data = loadData.loadData()
     labels = loadLabels.loadLabel()
-    exp = 21
-    user = 10
+    exp = 22
+    user = 11
     aux1 = 0
     aux2=0
     todo = []
@@ -305,6 +353,7 @@ def main():
             aux.append([element[2]])
             aux.append([element[3], element[4]])
             todo.append(aux)
+
     for i in range(len(todo)):
         inicio = int(todo[i][1][0])-1
         fim = int(todo[i][1][1])
@@ -329,20 +378,20 @@ def main():
 
     #plota(todo)
     #plotaDFT(arrayDFT)
+    '''pacosEstaticos= staticSteps(arrayDFT)
     pacosDinamicos=dinamicalSteps(arrayDFT)
-    print(pacosDinamicos[0])
     walkMean = np.mean(pacosDinamicos[0])
-    upMean = np.mean(pacosDinamicos[2])
-    downMean = np.mean(pacosDinamicos[1])
+    upMean = np.mean(pacosDinamicos[1])
+    downMean = np.mean(pacosDinamicos[2])
     walkdp = np.std(pacosDinamicos[0])
-    updp = np.std(pacosDinamicos[2])
-    downdp = np.std(pacosDinamicos[1])
+    updp = np.std(pacosDinamicos[1])
+    downdp = np.std(pacosDinamicos[2])
     print("MEDIA ANDANDO= "+str(walkMean))
     print("MEDIA SUBINDO= "+str(upMean))
     print("MEDIA DESCENDO= "+str(downMean))
     print("DESVIO-PADRÃO ANDANDO= "+str(walkdp))
     print("DESVIO-PADRÃO SUBINDO= "+str(updp))
-    print("DESVIO-PADRÃO DESCENDO= "+str(downdp))
+    print("DESVIO-PADRÃO DESCENDO= "+str(downdp))'''
 
 
 
