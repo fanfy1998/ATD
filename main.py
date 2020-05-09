@@ -327,9 +327,22 @@ def main():
         for k in range(len(paiX[i])):
             arrayDFT[i].append(dft(paiX[i], k))
 
-    plota(todo)
-    plotaDFT(arrayDFT)
+    #plota(todo)
+    #plotaDFT(arrayDFT)
     pacosDinamicos=dinamicalSteps(arrayDFT)
+    print(pacosDinamicos[0])
+    walkMean = np.mean(pacosDinamicos[0])
+    upMean = np.mean(pacosDinamicos[2])
+    downMean = np.mean(pacosDinamicos[1])
+    walkdp = np.std(pacosDinamicos[0])
+    updp = np.std(pacosDinamicos[2])
+    downdp = np.std(pacosDinamicos[1])
+    print("MEDIA ANDANDO= "+str(walkMean))
+    print("MEDIA SUBINDO= "+str(upMean))
+    print("MEDIA DESCENDO= "+str(downMean))
+    print("DESVIO-PADRÃO ANDANDO= "+str(walkdp))
+    print("DESVIO-PADRÃO SUBINDO= "+str(updp))
+    print("DESVIO-PADRÃO DESCENDO= "+str(downdp))
 
 
 
