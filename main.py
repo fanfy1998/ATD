@@ -3,6 +3,7 @@ import loadLabels
 import matplotlib.pyplot as plt
 import numpy as np
 import math
+from scipy import signal
 
 JANELA_DESLIZANTE = 0
 AMOSTRASSEGUNDO = 50
@@ -250,8 +251,23 @@ def plotaDFT(arrayDFT):
 
 def plotaSTFT(arraySTFT):
     plt.figure()
-    plt.plot(np.linspace(0.0, len(arraySTFT[0])/AMOSTRASSEGUNDO, len(arraySTFT[0])), np.abs(arraySTFT[0]))
+    plt.plot(np.linspace(0.0, len(arraySTFT[1])/AMOSTRASSEGUNDO, len(arraySTFT[1])), np.abs(arraySTFT[1]))
     plt.show()
+
+def plotaDFTTransicao(arrayDFT):
+    plt.figure()
+    quadro="61"
+    aux=1
+
+    i=6
+    while i<12:
+        if len(arrayDFT[i])>0:
+            plt.subplot(int(quadro+str(aux)))
+            plt.plot(np.linspace(0.0, len(arrayDFT[i])/AMOSTRASSEGUNDO, len(arrayDFT[i])), np.abs(arrayDFT[i]))
+            aux+=1
+        i+=1
+    plt.show()
+
 
 def staticSteps(arrayDFT):
     plt.figure()
@@ -264,10 +280,6 @@ def staticSteps(arrayDFT):
         if len(arrayDFT[i])>0:
             plt.subplot(int(quadro+str(aux)))
             plt.plot(np.linspace(0.0, len(arrayDFT[i])/AMOSTRASSEGUNDO, len(arrayDFT[i])), np.abs(arrayDFT[i]))
-            arr = []
-            while len(arr)<len(arrayDFT[i]):
-                arr.append(STEP_FREQ)
-            plt.plot(np.linspace(0.0, len(arrayDFT[i])/AMOSTRASSEGUNDO,len(arrayDFT[i])),arr)
             aux+=1
         i+=1
     sentado = []
@@ -313,10 +325,6 @@ def dinamicalSteps(arrayDFT):
         if len(arrayDFT[i])>0:
             plt.subplot(int(quadro+str(aux)))
             plt.plot(np.linspace(0.0, len(arrayDFT[i])/AMOSTRASSEGUNDO, len(arrayDFT[i])), np.abs(arrayDFT[i]))
-            arr = []
-            while len(arr)<len(arrayDFT[i]):
-                arr.append(STEP_FREQ)
-            plt.plot(np.linspace(0.0, len(arrayDFT[i])/AMOSTRASSEGUNDO,len(arrayDFT[i])),arr)
             aux+=1
     pacosAndando = []
     pacosDescendo = []
@@ -399,6 +407,9 @@ def main():
     #plotaSTFT(arraySTFT)
     #plota(todo)
     #plotaDFT(arrayDFT)
+
+    plotaDFTTransicao(arrayDFT)
+
     '''pacosEstaticos= staticSteps(arrayDFT)
     pacosDinamicos=dinamicalSteps(arrayDFT)
     walkMean = np.mean(pacosDinamicos[0])
