@@ -3,13 +3,12 @@ import loadLabels
 import matplotlib.pyplot as plt
 import numpy as np
 import math
-from scipy import signal
 
 JANELA_DESLIZANTE = 0
 AMOSTRASSEGUNDO = 50
 STEP_FREQ = 50
 
-
+activities=['WALK','WALK_UP','WALK_DOWN','SIT','STAND','LAY','STAND_SIT','SIT_STAND','SIT_LIE','LIE_SIT','STAND_LIE',"LIE_STAND"]
 def auxDft(todo,janela):
     activities=['WALK','WALK_UP','WALK_DOWN','SIT','STAND','LAY','STAND_SIT','SIT_STAND','SIT_LIE','LIE_SIT','STAND_LIE',"LIE_STAND"]
     andando=[]
@@ -251,18 +250,19 @@ def plotaDFT(arrayDFT):
 
 def plotaSTFT(arraySTFT):
     plt.figure()
-    plt.plot(np.linspace(0.0, len(arraySTFT[1])/AMOSTRASSEGUNDO, len(arraySTFT[1])), np.abs(arraySTFT[1]))
+    plt.ylabel(str(activities[0]))
+    plt.plot(np.linspace(0.0, len(arraySTFT[0])/AMOSTRASSEGUNDO, len(arraySTFT[0])), np.abs(arraySTFT[0]))
     plt.show()
 
 def plotaDFTTransicao(arrayDFT):
     plt.figure()
     quadro="61"
     aux=1
-
     i=6
     while i<12:
         if len(arrayDFT[i])>0:
             plt.subplot(int(quadro+str(aux)))
+            plt.ylabel(str(activities[i]))
             plt.plot(np.linspace(0.0, len(arrayDFT[i])/AMOSTRASSEGUNDO, len(arrayDFT[i])), np.abs(arrayDFT[i]))
             aux+=1
         i+=1
@@ -279,6 +279,7 @@ def staticSteps(arrayDFT):
     while i<6:
         if len(arrayDFT[i])>0:
             plt.subplot(int(quadro+str(aux)))
+            plt.ylabel(str(activities[i]))
             plt.plot(np.linspace(0.0, len(arrayDFT[i])/AMOSTRASSEGUNDO, len(arrayDFT[i])), np.abs(arrayDFT[i]))
             aux+=1
         i+=1
@@ -324,6 +325,7 @@ def dinamicalSteps(arrayDFT):
     for i in range(3):
         if len(arrayDFT[i])>0:
             plt.subplot(int(quadro+str(aux)))
+            plt.ylabel(str(activities[i]))
             plt.plot(np.linspace(0.0, len(arrayDFT[i])/AMOSTRASSEGUNDO, len(arrayDFT[i])), np.abs(arrayDFT[i]))
             aux+=1
     pacosAndando = []
@@ -404,14 +406,14 @@ def main():
         for k in range(len(paiX[i])):
             arraySTFT[i].append(stft(paiX[i], k))
 
-    #plotaSTFT(arraySTFT)
-    #plota(todo)
-    #plotaDFT(arrayDFT)
+
 
     plotaDFTTransicao(arrayDFT)
-
-    '''pacosEstaticos= staticSteps(arrayDFT)
+    pacosEstaticos= staticSteps(arrayDFT)
     pacosDinamicos=dinamicalSteps(arrayDFT)
+    plotaSTFT(arraySTFT)
+
+
     walkMean = np.mean(pacosDinamicos[0])
     upMean = np.mean(pacosDinamicos[1])
     downMean = np.mean(pacosDinamicos[2])
@@ -423,7 +425,7 @@ def main():
     print("MEDIA DESCENDO= "+str(downMean))
     print("DESVIO-PADRÃO ANDANDO= "+str(walkdp))
     print("DESVIO-PADRÃO SUBINDO= "+str(updp))
-    print("DESVIO-PADRÃO DESCENDO= "+str(downdp))'''
+    print("DESVIO-PADRÃO DESCENDO= "+str(downdp))
 
 
 
